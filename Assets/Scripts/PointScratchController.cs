@@ -8,13 +8,14 @@ public class PointScratchController : MonoBehaviour, IPointerDownHandler, IPoint
 
 	public bool isTouched;
 	
-	public float scratchStep = 100f;
+	public float scratchStepScreenPercent = .1f;
+	private float scratchStep;
 	public float currentScratch;
 	public float lastScratch;
 
 	// Use this for initialization
 	void Start () {
-	
+		scratchStep = Screen.width * scratchStepScreenPercent;
 	}
 	
 	// Update is called once per frame
@@ -45,6 +46,7 @@ public class PointScratchController : MonoBehaviour, IPointerDownHandler, IPoint
 	public void startRecordHits() {
 		isTouched = true;
 		currentScratch = 0;
+		lastScratch = 0;
 	}
 	
 	public void stopRecordHits() {
