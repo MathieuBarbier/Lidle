@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GirlPanel : MonoBehaviour {
+
+	public List<FringueController> fringues = new List<FringueController>();
+	public int currentFringueIndex;
 
 	private Animator animator;
 
@@ -17,6 +21,14 @@ public class GirlPanel : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void initFringues() {
+		currentFringueIndex = 0;
+		fringues.AddRange(transform.GetComponentsInChildren<FringueController>());
+		for(int i = 1; i < fringues.Count; i++) {
+			fringues[i].init();
+		}
 	}
 
 	public void goLeft() {

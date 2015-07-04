@@ -2,14 +2,15 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 
-public class PointScratchController : MonoBehaviour, IPointerDownHandler, IPointerExitHandler, IDragHandler {
+public class PointScratchController : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IDragHandler {
 
 	public FringueController fringue;
 
 	public bool isTouched;
-	public float scratchRequired;
-
+	
+	public float scratchStep = 100f;
 	public float currentScratch;
+	public float lastScratch;
 
 	// Use this for initialization
 	void Start () {
@@ -25,28 +26,43 @@ public class PointScratchController : MonoBehaviour, IPointerDownHandler, IPoint
 		endPoint();
 	}
 
-	public void validatePointAction() {
+	public void hit() {
 		fringue.decreaseLife();
 	}
 
 	public void OnPointerDown(PointerEventData eventData) {
+		startRecordHits();
+	}
+	
+	public void OnPointerUp(PointerEventData eventData) {
+		stopRecordHits();
+	}
+	
+	public void OnPointerExit(PointerEventData eventData) {
+		stopRecordHits();
+	}
+	
+	public void startRecordHits() {
 		isTouched = true;
 		currentScratch = 0;
 	}
-
-	public void OnPointerExit(PointerEventData eventData) {
+	
+	public void stopRecordHits() {
 		isTouched = false;
 	}
 
 	public void OnDrag(PointerEventData eventData) {
 		if(isTouched) {
 			currentScratch += eventData.delta.magnitude;
+
+			while(currentScratch >= lastScratch + scratchStep) {
+				hit();
+				lastScratch += scratchStep;
+			}
 		}
 	}
 
 	public void endPoint() {
-		if(currentScratch >= scratchRequired) {
-			validatePointAction();
-		}
+
 	}
 }
