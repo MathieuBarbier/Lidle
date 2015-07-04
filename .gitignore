@@ -228,3 +228,4 @@ Assets/ProjectResources/2D/texture.jpg
 Assembly-CSharp-vs.csproj
 *.csproj
 *.sln
+Library/shadercompiler-32bit-1.log
